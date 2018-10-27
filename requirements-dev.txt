@@ -1,3 +1,4 @@
 pycodestyle
 coverage
 keras-multi-head==0.8.0
+keras-layer-normalization==0.1.0

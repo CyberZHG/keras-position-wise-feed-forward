@@ -13,8 +13,13 @@ pip install keras-position-wise-feed-forward
 
 ## Usage
 
-### Train & Use
-
 ```python
+import keras
+from keras_position_wise_feed_forward import FeedForward
 
+input_layer = keras.layers.Input()
+feed_forward_layer = FeedForward()(input_layer)
+model = keras.models.Model(inputs=input_layer, outputs=feed_forward_layer)
+model.compile(optimizer='adam', loss='mse', metrics={})
+model.summary()
 ```
