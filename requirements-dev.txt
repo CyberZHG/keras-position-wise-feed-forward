@@ -1,4 +1,8 @@
+setuptools>=38.6.0
+twine>=1.11.0
+wheel>=0.31.0
 pycodestyle
 coverage
-keras-multi-head==0.8.0
-keras-layer-normalization==0.1.0
+tensorflow
+keras-multi-head==0.16.0
+keras-layer-normalization==0.4.0

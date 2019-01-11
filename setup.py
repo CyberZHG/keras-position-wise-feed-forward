@@ -12,7 +12,7 @@ with codecs.open('requirements.txt', 'r', 'utf8') as reader:
 
 setup(
     name='keras-position-wise-feed-forward',
-    version='0.3.0',
+    version='0.4.0',
     packages=find_packages(),
     url='https://github.com/CyberZHG/keras-position-wise-feed-forward',
     license='MIT',
