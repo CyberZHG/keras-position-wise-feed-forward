@@ -49,7 +49,7 @@ class FeedForward(keras.layers.Layer):
     def get_config(self):
         config = {
             'units': self.units,
-            'activation': self.activation,
+            'activation': keras.activations.serialize(self.activation),
             'use_bias': self.use_bias,
             'kernel_initializer': keras.initializers.serialize(self.kernel_initializer),
             'bias_initializer': keras.initializers.serialize(self.bias_initializer),
