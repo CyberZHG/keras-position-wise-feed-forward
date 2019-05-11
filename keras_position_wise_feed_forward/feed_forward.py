@@ -1,5 +1,5 @@
-import keras
-import keras.backend as K
+from .backend import keras
+from .backend import backend as K
 
 
 class FeedForward(keras.layers.Layer):
@@ -68,7 +68,7 @@ class FeedForward(keras.layers.Layer):
         return input_mask
 
     def build(self, input_shape):
-        feature_dim = input_shape[-1]
+        feature_dim = int(input_shape[-1])
         self.W1 = self.add_weight(
             shape=(feature_dim, self.units),
             initializer=self.kernel_initializer,
