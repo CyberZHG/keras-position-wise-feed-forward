@@ -5,6 +5,7 @@ import numpy as np
 from keras_multi_head import MultiHeadAttention
 from keras_layer_normalization import LayerNormalization
 from keras_position_wise_feed_forward.backend import keras
+from keras_position_wise_feed_forward.backend import backend as K
 from keras_position_wise_feed_forward import FeedForward
 
 
@@ -71,9 +72,13 @@ class TestFeedForward(unittest.TestCase):
         normal_layer = LayerNormalization(
             name='Layer-Normalization-1',
         )(att_layer)
+        dropout_rate = 0.1
+        if K.backend() == 'theano':
+            dropout_rate = 0.0
         feed_forward_layer = FeedForward(
             units=12,
             activation=self._leaky_relu,
+            dropout_rate=dropout_rate,
             name='FeedForward',
         )(normal_layer)
         normal_layer = LayerNormalization(

@@ -5,7 +5,26 @@ from .backend import backend as K
 class FeedForward(keras.layers.Layer):
     """Position-wise feed-forward layer.
 
-    See: https://arxiv.org/pdf/1706.03762.pdf
+    # Arguments
+        units: int >= 0. Dimension of hidden units.
+        activation: Activation function to use
+        use_bias: Boolean, whether the layer uses a bias vector.
+        kernel_initializer: Initializer for the `kernel` weights matrix.
+        bias_initializer: Initializer for the bias vector.
+        kernel_regularizer: Regularizer function applied to the `kernel` weights matrix.
+        bias_regularizer: Regularizer function applied to the bias vector.
+        kernel_constraint: Constraint function applied to the `kernel` weights matrix.
+        bias_constraint: Constraint function applied to the bias vector.
+        dropout_rate: 0.0 <= float <= 1.0. Dropout rate for hidden units.
+
+    # Input shape
+        3D tensor with shape: `(batch_size, ..., input_dim)`.
+
+    # Output shape
+        3D tensor with shape: `(batch_size, ..., input_dim)`.
+
+    # References
+        - [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
     """
 
     def __init__(self,
@@ -18,20 +37,8 @@ class FeedForward(keras.layers.Layer):
                  bias_regularizer=None,
                  kernel_constraint=None,
                  bias_constraint=None,
+                 dropout_rate=0.0,
                  **kwargs):
-        """Initialize the layer.
-
-        :param units: Dimension of hidden units.
-        :param activation: Activation for the first linear transformation.
-        :param use_bias: Whether to use the bias term.
-        :param kernel_initializer: Initializer for kernels.
-        :param bias_initializer: Initializer for kernels.
-        :param kernel_regularizer: Regularizer for kernels.
-        :param bias_regularizer: Regularizer for kernels.
-        :param kernel_constraint: Constraint for kernels.
-        :param bias_constraint: Constraint for kernels.
-        :param kwargs:
-        """
         self.supports_masking = True
         self.units = units
         self.activation = keras.activations.get(activation)
@@ -42,6 +49,7 @@ class FeedForward(keras.layers.Layer):
         self.bias_regularizer = keras.regularizers.get(bias_regularizer)
         self.kernel_constraint = keras.constraints.get(kernel_constraint)
         self.bias_constraint = keras.constraints.get(bias_constraint)
+        self.dropout_rate = dropout_rate
         self.W1, self.b1 = None, None
         self.W2, self.b2 = None, None
         super(FeedForward, self).__init__(**kwargs)
@@ -57,6 +65,7 @@ class FeedForward(keras.layers.Layer):
             'bias_regularizer': keras.regularizers.serialize(self.bias_regularizer),
             'kernel_constraint': keras.constraints.serialize(self.kernel_constraint),
             'bias_constraint': keras.constraints.serialize(self.bias_constraint),
+            'dropout_rate': self.dropout_rate,
         }
         base_config = super(FeedForward, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
@@ -101,12 +110,16 @@ class FeedForward(keras.layers.Layer):
             )
         super(FeedForward, self).build(input_shape)
 
-    def call(self, x, mask=None):
+    def call(self, x, mask=None, training=None):
         h = K.dot(x, self.W1)
         if self.use_bias:
             h = K.bias_add(h, self.b1)
         if self.activation is not None:
             h = self.activation(h)
+        if 0.0 < self.dropout_rate < 1.0:
+            def dropped_inputs():
+                return K.dropout(h, self.dropout_rate, K.shape(h))
+            h = K.in_train_phase(dropped_inputs, h, training=training)
         y = K.dot(h, self.W2)
         if self.use_bias:
             y = K.bias_add(y, self.b2)
