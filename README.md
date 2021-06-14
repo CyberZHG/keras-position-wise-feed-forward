@@ -6,11 +6,6 @@
 ![Downloads](https://img.shields.io/pypi/dm/keras-position-wise-feed-forward.svg)
 ![License](https://img.shields.io/pypi/l/keras-position-wise-feed-forward.svg)
 
-![](https://img.shields.io/badge/keras-tensorflow-blue.svg)
-![](https://img.shields.io/badge/keras-tf.keras-blue.svg)
-![](https://img.shields.io/badge/keras-tf.keras/eager-blue.svg)
-![](https://img.shields.io/badge/keras-tf.keras/2.0_beta-blue.svg)
-
 Implementation of position-wise feed forward layer in the paper: [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
 
 ## Install
