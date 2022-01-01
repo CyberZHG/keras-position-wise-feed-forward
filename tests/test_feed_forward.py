@@ -1,11 +1,13 @@
 import os
 import tempfile
 import unittest
+
 import numpy as np
+from tensorflow import keras
+from tensorflow.keras import backend as K
+
 from keras_multi_head import MultiHeadAttention
 from keras_layer_normalization import LayerNormalization
-from keras_position_wise_feed_forward.backend import keras
-from keras_position_wise_feed_forward.backend import backend as K
 from keras_position_wise_feed_forward import FeedForward
 
 

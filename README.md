@@ -1,9 +1,6 @@
 # Keras Position-Wise Feed Forward
 
-[![Travis](https://travis-ci.org/CyberZHG/keras-position-wise-feed-forward.svg)](https://travis-ci.org/CyberZHG/keras-position-wise-feed-forward)
-[![Coverage](https://coveralls.io/repos/github/CyberZHG/keras-position-wise-feed-forward/badge.svg?branch=master)](https://coveralls.io/github/CyberZHG/keras-position-wise-feed-forward)
 [![Version](https://img.shields.io/pypi/v/keras-position-wise-feed-forward.svg)](https://pypi.org/project/keras-position-wise-feed-forward/)
-![Downloads](https://img.shields.io/pypi/dm/keras-position-wise-feed-forward.svg)
 ![License](https://img.shields.io/pypi/l/keras-position-wise-feed-forward.svg)
 
 Implementation of position-wise feed forward layer in the paper: [Attention is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
@@ -17,7 +14,7 @@ pip install keras-position-wise-feed-forward
 ## Usage
 
 ```python
-import keras
+from tensorflow import keras
 from keras_position_wise_feed_forward import FeedForward
 
 input_layer = keras.layers.Input(shape=(None, 32))
